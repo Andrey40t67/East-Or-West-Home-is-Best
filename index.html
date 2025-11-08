@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Squid Game: Red Light, Green Light - Minecraft Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Game: Red Light Green Light - HD Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
         
@@ -11,14 +11,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             font-family: 'Black Han Sans', sans-serif;
             overflow: hidden;
             background: #000;
-            touch-action: none;
         }
         
         canvas {
@@ -32,7 +30,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #000000 0%, #1a0a0a 50%, #2d0a0a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -41,81 +39,116 @@
         }
         
         #mainMenu h1 {
-            font-size: 72px;
+            font-size: 96px;
             color: #e94560;
-            text-shadow: 4px 4px 0 #000, 8px 8px 20px rgba(233, 69, 96, 0.5);
-            margin-bottom: 50px;
-            animation: pulse 2s infinite;
+            text-shadow: 0 0 20px #e94560, 0 0 40px #e94560, 4px 4px 0 #000;
+            margin-bottom: 30px;
+            animation: glow 2s infinite;
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        #mainMenu .subtitle {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #e94560, 0 0 40px #e94560, 4px 4px 0 #000; }
+            50% { text-shadow: 0 0 30px #e94560, 0 0 60px #e94560, 0 0 80px #e94560, 4px 4px 0 #000; }
         }
         
         .menu-btn {
-            padding: 20px 60px;
+            padding: 25px 80px;
             margin: 15px;
-            font-size: 28px;
+            font-size: 32px;
             font-family: 'Black Han Sans', sans-serif;
-            background: linear-gradient(135deg, #e94560, #d63447);
-            border: 4px solid #fff;
+            background: linear-gradient(135deg, #e94560, #ff6b81);
+            border: 5px solid #fff;
             color: #fff;
             cursor: pointer;
-            border-radius: 10px;
-            box-shadow: 0 8px 0 #8B0000, 0 12px 30px rgba(0,0,0,0.5);
+            border-radius: 15px;
+            box-shadow: 0 10px 0 #8B0000, 0 15px 40px rgba(233, 69, 96, 0.6);
             transition: all 0.2s;
             text-transform: uppercase;
         }
         
         .menu-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 0 #8B0000, 0 16px 40px rgba(0,0,0,0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 0 #8B0000, 0 20px 50px rgba(233, 69, 96, 0.8);
         }
         
         .menu-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 #8B0000, 0 8px 20px rgba(0,0,0,0.4);
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #8B0000, 0 10px 30px rgba(233, 69, 96, 0.4);
         }
         
-        /* Экран правил */
-        #rulesScreen {
+        #credits {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #888;
+            font-size: 14px;
+            text-shadow: 1px 1px 0 #000;
+        }
+        
+        /* 3D Туториал */
+        #tutorialOverlay {
             display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 999;
-            overflow-y: auto;
-            padding: 40px;
+            z-index: 900;
+            pointer-events: none;
         }
         
-        #rulesScreen h2 {
-            font-size: 48px;
-            color: #e94560;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 3px 3px 0 #000;
-        }
-        
-        .rule-item {
-            background: rgba(233, 69, 96, 0.1);
-            border: 3px solid #e94560;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px auto;
-            max-width: 800px;
+        #tutorialText {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            padding: 30px 50px;
+            border: 4px solid #e94560;
+            border-radius: 20px;
             color: #fff;
-            font-size: 20px;
-            line-height: 1.6;
+            font-size: 28px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+            animation: fadeIn 1s;
         }
         
-        .rule-item h3 {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        #tutorialProgress {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             color: #e94560;
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 20px;
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        #skipTutorial {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            pointer-events: all;
         }
         
         /* Настройки */
@@ -126,34 +159,35 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.95);
-            padding: 40px;
-            border: 4px solid #e94560;
+            padding: 50px;
+            border: 5px solid #e94560;
             border-radius: 20px;
             z-index: 1001;
-            min-width: 400px;
+            min-width: 500px;
         }
         
         #settingsMenu h2 {
             color: #e94560;
-            font-size: 36px;
-            margin-bottom: 30px;
+            font-size: 42px;
+            margin-bottom: 40px;
             text-align: center;
         }
         
         .setting-item {
-            margin: 20px 0;
+            margin: 25px 0;
             color: #fff;
+            font-size: 20px;
         }
         
         .setting-item label {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
         .setting-item input[type="checkbox"] {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             cursor: pointer;
         }
         
@@ -170,18 +204,18 @@
         
         #gameInfo {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.8);
-            padding: 20px;
-            border: 3px solid #e94560;
-            border-radius: 10px;
+            top: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.85);
+            padding: 25px;
+            border: 4px solid #e94560;
+            border-radius: 15px;
             color: #fff;
-            font-size: 18px;
+            font-size: 22px;
         }
         
         #gameInfo div {
-            margin: 8px 0;
+            margin: 10px 0;
         }
         
         #lightStatus {
@@ -189,11 +223,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 72px;
+            font-size: 96px;
             font-weight: bold;
-            text-shadow: 4px 4px 0 #000, 8px 8px 20px rgba(0,0,0,0.8);
-            animation: blink 0.5s infinite;
+            text-shadow: 0 0 20px currentColor, 4px 4px 0 #000;
             display: none;
+            animation: pulse 0.5s infinite;
         }
         
         #lightStatus.green {
@@ -206,31 +240,43 @@
             display: block;
         }
         
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        #reactionTime {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffff00;
+            font-size: 48px;
+            text-shadow: 0 0 10px #ffff00, 2px 2px 0 #000;
+            display: none;
         }
         
         #progress {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
-            max-width: 600px;
-            background: rgba(0,0,0,0.8);
-            border: 3px solid #e94560;
+            width: 85%;
+            max-width: 800px;
+            background: rgba(0,0,0,0.85);
+            border: 4px solid #e94560;
             border-radius: 20px;
-            padding: 15px;
+            padding: 20px;
         }
         
         #progressBar {
             width: 100%;
-            height: 30px;
-            background: #333;
-            border-radius: 15px;
+            height: 40px;
+            background: #1a1a1a;
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
+            border: 2px solid #333;
         }
         
         #progressFill {
@@ -238,7 +284,7 @@
             background: linear-gradient(90deg, #00ff00, #00cc00);
             width: 0%;
             transition: width 0.3s;
-            position: relative;
+            box-shadow: 0 0 20px #00ff00;
         }
         
         #progressText {
@@ -247,7 +293,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: #fff;
-            font-size: 16px;
+            font-size: 20px;
             font-weight: bold;
             text-shadow: 2px 2px 0 #000;
         }
@@ -256,81 +302,68 @@
         #mobileControls {
             display: none;
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 120px;
+            right: 30px;
             pointer-events: all;
         }
         
         #joystickContainer {
-            width: 150px;
-            height: 150px;
-            background: rgba(255,255,255,0.2);
-            border: 4px solid rgba(255,255,255,0.5);
+            width: 180px;
+            height: 180px;
+            background: rgba(255,255,255,0.15);
+            border: 5px solid rgba(255,255,255,0.4);
             border-radius: 50%;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         #joystickHandle {
-            width: 60px;
-            height: 60px;
-            background: rgba(233, 69, 96, 0.8);
-            border: 4px solid #fff;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e94560, #ff6b81);
+            border: 5px solid #fff;
             border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
         
-        /* Game Over */
+        /* Game Over / Win */
+        #gameOverScreen, #winScreen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1002;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
         #gameOverScreen {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1002;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: rgba(139, 0, 0, 0.95);
         }
         
-        #gameOverScreen h2 {
-            font-size: 64px;
-            color: #e94560;
-            text-shadow: 4px 4px 0 #000;
-            margin-bottom: 30px;
-        }
-        
-        #gameOverScreen p {
-            font-size: 32px;
-            color: #fff;
-            margin: 15px;
-        }
-        
-        /* Win Screen */
         #winScreen {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #00ff00, #00cc00);
-            z-index: 1002;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: rgba(0, 200, 0, 0.95);
         }
         
-        #winScreen h2 {
-            font-size: 72px;
+        #gameOverScreen h2, #winScreen h2 {
+            font-size: 84px;
             color: #fff;
-            text-shadow: 4px 4px 0 #000;
-            margin-bottom: 30px;
+            text-shadow: 0 0 30px currentColor, 5px 5px 0 #000;
+            margin-bottom: 40px;
+        }
+        
+        #gameOverScreen p, #winScreen p {
+            font-size: 36px;
+            color: #fff;
+            margin: 20px;
+            text-shadow: 2px 2px 0 #000;
         }
     </style>
 </head>
@@ -338,32 +371,17 @@
     <!-- Главное меню -->
     <div id="mainMenu">
         <h1>🦑 SQUID GAME 🦑</h1>
-        <button class="menu-btn" onclick="showRules()">НАЧАТЬ ИГРУ</button>
+        <div class="subtitle">RED LIGHT, GREEN LIGHT</div>
+        <button class="menu-btn" onclick="startTutorial()">НАЧАТЬ ИГРУ</button>
         <button class="menu-btn" onclick="showSettings()">НАСТРОЙКИ</button>
+        <div id="credits">Проект создан Андреем для Ромы ❤️</div>
     </div>
     
-    <!-- Экран правил -->
-    <div id="rulesScreen">
-        <h2>📋 ПРАВИЛА ИГРЫ</h2>
-        <div class="rule-item">
-            <h3>🟢 GREEN LIGHT (Зелёный свет)</h3>
-            <p>Когда кукла говорит "GREEN LIGHT" - ты можешь двигаться вперёд. Беги к финишной черте!</p>
-        </div>
-        <div class="rule-item">
-            <h3>🔴 RED LIGHT (Красный свет)</h3>
-            <p>Когда кукла говорит "RED LIGHT" - ты ДОЛЖЕН замереть! Даже малейшее движение приведёт к твоей смерти.</p>
-        </div>
-        <div class="rule-item">
-            <h3>🎯 ЦЕЛЬ</h3>
-            <p>Доберись до финишной черты первым. Дистанция: 100 метров. Остальные игроки - твои соперники.</p>
-        </div>
-        <div class="rule-item">
-            <h3>⌨️ УПРАВЛЕНИЕ</h3>
-            <p><strong>ПК:</strong> WASD - движение, Мышь - осмотр</p>
-            <p><strong>Телефон:</strong> Джойстик справа внизу</p>
-        </div>
-        <button class="menu-btn" onclick="startGame()" style="display: block; margin: 40px auto;">НАЧАТЬ!</button>
-        <button class="menu-btn" onclick="backToMenu()" style="display: block; margin: 20px auto; background: #666;">НАЗАД</button>
+    <!-- 3D Туториал оверлей -->
+    <div id="tutorialOverlay">
+        <div id="tutorialProgress">ШАГ 1/5</div>
+        <div id="tutorialText"></div>
+        <button id="skipTutorial" onclick="skipTutorial()">ПРОПУСТИТЬ</button>
     </div>
     
     <!-- Настройки -->
@@ -371,8 +389,14 @@
         <h2>⚙️ НАСТРОЙКИ</h2>
         <div class="setting-item">
             <label>
-                <input type="checkbox" id="mobileControlsToggle" onchange="toggleMobileControls()">
-                Включить мобильное управление
+                <span>Мобильное управление</span>
+                <input type="checkbox" id="mobileControlsToggle">
+            </label>
+        </div>
+        <div class="setting-item">
+            <label>
+                <span>Высокое качество графики</span>
+                <input type="checkbox" id="highQualityToggle" checked>
             </label>
         </div>
         <button class="menu-btn" onclick="closeSettings()" style="margin-top: 30px;">ЗАКРЫТЬ</button>
@@ -381,12 +405,13 @@
     <!-- Игровой UI -->
     <div id="gameUI">
         <div id="gameInfo">
-            <div>ИГРОКОВ: <span id="playersAlive">10</span>/10</div>
-            <div>ДИСТАНЦИЯ: <span id="distance">0</span>м/100м</div>
-            <div>ВРЕМЯ: <span id="timer">0</span>с</div>
+            <div>👥 ИГРОКОВ: <span id="playersAlive">10</span>/10</div>
+            <div>📏 ДИСТАНЦИЯ: <span id="distance">0</span>м/100м</div>
+            <div>⏱️ ВРЕМЯ: <span id="timer">0</span>с</div>
         </div>
         
         <div id="lightStatus"></div>
+        <div id="reactionTime"></div>
         
         <div id="progress">
             <div id="progressBar">
@@ -405,14 +430,16 @@
     <!-- Game Over -->
     <div id="gameOverScreen">
         <h2>☠️ ELIMINATED ☠️</h2>
-        <p>Ты двигался во время RED LIGHT!</p>
+        <p>Тебя застрелили!</p>
+        <p id="deathReason"></p>
         <button class="menu-btn" onclick="location.reload()">ПОПРОБОВАТЬ СНОВА</button>
     </div>
     
     <!-- Win Screen -->
     <div id="winScreen">
-        <h2>🏆 VICTORY! 🏆</h2>
-        <p>ТЫ ВЫЖИЛ!</p>
+        <h2>🏆 ПОБЕДА! 🏆</h2>
+        <p>Ты выжил в первой игре!</p>
+        <p id="winStats"></p>
         <button class="menu-btn" onclick="location.reload()">ИГРАТЬ СНОВА</button>
     </div>
     
@@ -420,128 +447,284 @@
     <script>
         // Аудио
         let menuMusic, themeMusic, greenLightAudio, redLightAudio;
+        let audioInitialized = false;
+        
+        // Настройки
+        let mobileEnabled = false;
+        let highQuality = true;
         
         // Игровые переменные
         let scene, camera, renderer;
         let player, bots = [];
         let ground, finishLine, doll;
-        let gameState = 'menu'; // menu, rules, playing, gameover, win
+        let gameState = 'menu';
         let isGreenLight = false;
-        let playerSpeed = 0.2;
+        let canMove = true; // Новая переменная для задержки
+        let reactionTimeLeft = 0;
         let playerDistance = 0;
         let timer = 0;
         let keys = {};
         let mouseX = 0, mouseY = 0;
         let isPointerLocked = false;
         
+        // Туториал
+        let tutorialStep = 0;
+        let tutorialCamera, tutorialActive = false;
+        
         // Мобильное управление
-        let mobileEnabled = false;
         let joystickActive = false;
         let joystickVector = { x: 0, y: 0 };
         
         // Инициализация аудио
         function initAudio() {
+            if (audioInitialized) return;
+            
             menuMusic = new Audio('squid-game-so.mp3');
             menuMusic.loop = true;
-            menuMusic.volume = 0.5;
+            menuMusic.volume = 0.6;
+            menuMusic.play().catch(e => console.log('Audio blocked:', e));
             
             themeMusic = new Audio('squid-game-theme.mp3');
             themeMusic.loop = true;
-            themeMusic.volume = 0.4;
+            themeMusic.volume = 0.5;
             
             greenLightAudio = new Audio('0208f6bd-1bea-4cd3-a44.mp3');
             redLightAudio = new Audio('25c92413-b490-4a65-9d40-1d.mp3');
+            
+            audioInitialized = true;
         }
+        
+        // Автоинициализация аудио при любом клике
+        document.addEventListener('click', () => {
+            if (!audioInitialized) initAudio();
+        }, { once: true });
         
         // Меню функции
-        function showRules() {
-            menuMusic.pause();
-            themeMusic.play();
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('rulesScreen').style.display = 'block';
-        }
-        
-        function backToMenu() {
-            themeMusic.pause();
-            menuMusic.play();
-            document.getElementById('rulesScreen').style.display = 'none';
-            document.getElementById('mainMenu').style.display = 'flex';
-        }
-        
         function showSettings() {
             document.getElementById('settingsMenu').style.display = 'block';
         }
         
         function closeSettings() {
+            mobileEnabled = document.getElementById('mobileControlsToggle').checked;
+            highQuality = document.getElementById('highQualityToggle').checked;
             document.getElementById('settingsMenu').style.display = 'none';
         }
         
-        function toggleMobileControls() {
-            mobileEnabled = document.getElementById('mobileControlsToggle').checked;
-            if (mobileEnabled && gameState === 'playing') {
-                document.getElementById('mobileControls').style.display = 'block';
-            }
+        function startTutorial() {
+            initAudio();
+            menuMusic.pause();
+            themeMusic.play();
+            
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('tutorialOverlay').style.display = 'block';
+            
+            initGame();
+            tutorialActive = true;
+            runTutorial();
         }
         
-        function startGame() {
-            document.getElementById('rulesScreen').style.display = 'none';
-            document.getElementById('gameUI').style.display = 'block';
+        function skipTutorial() {
+            tutorialActive = false;
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            startActualGame();
+        }
+        
+        // 3D Туториал с камерой
+        function runTutorial() {
+            const steps = [
+                {
+                    text: "Добро пожаловать в первую игру! Это - КУКЛА.",
+                    cameraPos: { x: 0, y: 10, z: -100 },
+                    cameraLookAt: { x: 0, y: 4, z: -110 },
+                    duration: 4000
+                },
+                {
+                    text: "🟢 Когда кукла говорит GREEN LIGHT - ты можешь двигаться!",
+                    cameraPos: { x: 10, y: 5, z: -80 },
+                    cameraLookAt: { x: 0, y: 1, z: 0 },
+                    duration: 4000
+                },
+                {
+                    text: "🔴 Когда кукла говорит RED LIGHT - ты ОБЯЗАН замереть!\nУ тебя будет 1 секунда, чтобы остановиться!",
+                    cameraPos: { x: -10, y: 5, z: -80 },
+                    cameraLookAt: { x: 0, y: 1, z: 0 },
+                    duration: 5000
+                },
+                {
+                    text: "⌨️ Управление: W S A D - движение\nМышь - осмотр (можно крутиться!)",
+                    cameraPos: { x: 0, y: 3, z: 5 },
+                    cameraLookAt: { x: 0, y: 1, z: 0 },
+                    duration: 4000
+                },
+                {
+                    text: "🎯 Цель: Добеги до красной линии первым!\nУдачи!",
+                    cameraPos: { x: 0, y: 20, z: -50 },
+                    cameraLookAt: { x: 0, y: 0, z: -100 },
+                    duration: 4000
+                }
+            ];
             
+            function showStep(index) {
+                if (index >= steps.length || !tutorialActive) {
+                    skipTutorial();
+                    return;
+                }
+                
+                const step = steps[index];
+                tutorialStep = index;
+                
+                document.getElementById('tutorialProgress').textContent = `ШАГ ${index + 1}/${steps.length}`;
+                document.getElementById('tutorialText').textContent = step.text;
+                
+                // Анимация камеры
+                animateCamera(
+                    camera.position,
+                    step.cameraPos,
+                    new THREE.Vector3(step.cameraLookAt.x, step.cameraLookAt.y, step.cameraLookAt.z),
+                    2000
+                );
+                
+                setTimeout(() => showStep(index + 1), step.duration);
+            }
+            
+            showStep(0);
+        }
+        
+        function animateCamera(fromPos, toPos, lookAt, duration) {
+            const startPos = fromPos.clone();
+            const targetPos = new THREE.Vector3(toPos.x, toPos.y, toPos.z);
+            const startTime = Date.now();
+            
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = easeInOutCubic(progress);
+                
+                camera.position.lerpVectors(startPos, targetPos, eased);
+                camera.lookAt(lookAt);
+                
+                if (progress < 1 && tutorialActive) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+        
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+        
+        function startActualGame() {
+            document.getElementById('gameUI').style.display = 'block';
             if (mobileEnabled) {
                 document.getElementById('mobileControls').style.display = 'block';
             }
             
             gameState = 'playing';
-            initGame();
+            camera.position.set(0, 2, 5);
+            
+            renderer.domElement.requestPointerLock();
+            startGameLoop();
+            startLightCycle();
         }
         
         // Инициализация игры
         function initGame() {
-            // Сцена
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x87CEEB);
-            scene.fog = new THREE.Fog(0x87CEEB, 50, 200);
+            scene.fog = new THREE.Fog(0x87CEEB, 80, 180);
             
-            // Камера
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 2, 5);
+            camera.position.set(0, 15, 20);
             
-            // Рендерер
-            renderer = new THREE.WebGLRenderer({ antialias: false }); // Отключаем для производительности
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: highQuality,
+                powerPreference: "high-performance"
+            });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, highQuality ? 2 : 1));
+            renderer.shadowMap.enabled = highQuality;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             document.body.appendChild(renderer.domElement);
             
-            // Освещение
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            // Освещение улучшенное
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
             
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            dirLight.position.set(50, 50, 50);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(50, 80, 50);
+            dirLight.castShadow = highQuality;
+            dirLight.shadow.camera.left = -60;
+            dirLight.shadow.camera.right = 60;
+            dirLight.shadow.camera.top = 60;
+            dirLight.shadow.camera.bottom = -60;
+            dirLight.shadow.mapSize.width = 2048;
+            dirLight.shadow.mapSize.height = 2048;
             scene.add(dirLight);
             
-            // Земля
-            const groundGeo = new THREE.PlaneGeometry(50, 150);
-            const groundMat = new THREE.MeshLambertMaterial({ color: 0x90EE90 });
+            // Дополнительный свет
+            const fillLight = new THREE.DirectionalLight(0x6699ff, 0.3);
+            fillLight.position.set(-50, 30, -50);
+            scene.add(fillLight);
+            
+            // Земля с текстурой
+            const groundGeo = new THREE.PlaneGeometry(60, 160);
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            
+            // Травяная текстура
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, 512, 512);
+            for (let i = 0; i < 5000; i++) {
+                const x = Math.random() * 512;
+                const y = Math.random() * 512;
+                const brightness = Math.random() * 50 - 25;
+                ctx.fillStyle = `rgb(${76 + brightness}, ${175 + brightness}, ${80 + brightness})`;
+                ctx.fillRect(x, y, 2, 2);
+            }
+            
+            const groundTexture = new THREE.CanvasTexture(canvas);
+            groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+            groundTexture.repeat.set(4, 4);
+            
+            const groundMat = new THREE.MeshLambertMaterial({ map: groundTexture });
             ground = new THREE.Mesh(groundGeo, groundMat);
             ground.rotation.x = -Math.PI / 2;
             ground.position.z = -50;
+            ground.receiveShadow = highQuality;
             scene.add(ground);
             
+            // Боковые стены
+            const wallGeo = new THREE.BoxGeometry(2, 5, 160);
+            const wallMat = new THREE.MeshLambertMaterial({ color: 0x333333 });
+            
+            const leftWall = new THREE.Mesh(wallGeo, wallMat);
+            leftWall.position.set(-30, 2.5, -50);
+            leftWall.castShadow = highQuality;
+            scene.add(leftWall);
+            
+            const rightWall = new THREE.Mesh(wallGeo, wallMat);
+            rightWall.position.set(30, 2.5, -50);
+            rightWall.castShadow = highQuality;
+            scene.add(rightWall);
+            
             // Финишная линия
-            const finishGeo = new THREE.PlaneGeometry(50, 2);
-            const finishMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const finishGeo = new THREE.PlaneGeometry(60, 3);
+            const finishMat = new THREE.MeshBasicMaterial({ 
+                color: 0xff0000,
+                emissive: 0xff0000,
+                emissiveIntensity: 0.5
+            });
             finishLine = new THREE.Mesh(finishGeo, finishMat);
             finishLine.rotation.x = -Math.PI / 2;
-            finishLine.position.set(0, 0.01, -100);
+            finishLine.position.set(0, 0.02, -100);
             scene.add(finishLine);
             
-            // Кукла (большой красный куб)
-            const dollGeo = new THREE.BoxGeometry(5, 8, 3);
-            const dollMat = new THREE.MeshLambertMaterial({ color: 0xff4444 });
-            doll = new THREE.Mesh(dollGeo, dollMat);
-            doll.position.set(0, 4, -110);
-            scene.add(doll);
+            // КУКЛА (детальная)
+            createDoll();
             
             // Игрок
             createPlayer();
@@ -552,11 +735,82 @@
             // Управление
             setupControls();
             
-            // Игровой цикл
-            startGameLoop();
+            // Рендер для туториала
+            if (tutorialActive) {
+                function tutorialRender() {
+                    if (tutorialActive) {
+                        requestAnimationFrame(tutorialRender);
+                        renderer.render(scene, camera);
+                    }
+                }
+                tutorialRender();
+            }
+        }
+        
+        function createDoll() {
+            const dollGroup = new THREE.Group();
             
-            // Запуск механики света
-            startLightCycle();
+            // Тело куклы
+            const bodyGeo = new THREE.CylinderGeometry(2, 2.5, 6, 8);
+            const bodyMat = new THREE.MeshLambertMaterial({ color: 0xff6b9d });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            body.castShadow = highQuality;
+            dollGroup.add(body);
+            
+            // Голова
+            const headGeo = new THREE.SphereGeometry(2, 16, 16);
+            const headMat = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            const head = new THREE.Mesh(headGeo, headMat);
+            head.position.y = 5;
+            head.castShadow = highQuality;
+            dollGroup.add(head);
+            
+            // Волосы
+            const hairGeo = new THREE.SphereGeometry(2.2, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const hairMat = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const hair = new THREE.Mesh(hairGeo, hairMat);
+            hair.position.y = 5.5;
+            dollGroup.add(hair);
+            
+            // Глаза (светящиеся)
+            const eyeGeo = new THREE.SphereGeometry(0.3, 8, 8);
+            const eyeMat = new THREE.MeshBasicMaterial({ 
+                color: 0x000000,
+                emissive: 0xff0000,
+                emissiveIntensity: 2
+            });
+            
+            const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+            leftEye.position.set(-0.6, 5.2, 1.8);
+            dollGroup.add(leftEye);
+            
+            const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+            rightEye.position.set(0.6, 5.2, 1.8);
+            dollGroup.add(rightEye);
+            
+            // Свет от глаз
+            const eyeLight = new THREE.PointLight(0xff0000, 2, 20);
+            eyeLight.position.set(0, 5, 2);
+            dollGroup.add(eyeLight);
+            
+            // Руки
+            const armGeo = new THREE.CylinderGeometry(0.4, 0.4, 4, 8);
+            const armMat = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            
+            const leftArm = new THREE.Mesh(armGeo, armMat);
+            leftArm.position.set(-2.5, 1, 0);
+            leftArm.rotation.z = Math.PI / 4;
+            dollGroup.add(leftArm);
+            
+            const rightArm = new THREE.Mesh(armGeo, armMat);
+            rightArm.position.set(2.5, 1, 0);
+            rightArm.rotation.z = -Math.PI / 4;
+            dollGroup.add(rightArm);
+            
+            dollGroup.position.set(0, 3, -118);
+            dollGroup.rotation.y = Math.PI;
+            scene.add(dollGroup);
+            doll = dollGroup;
         }
         
         function createPlayer() {
@@ -564,31 +818,37 @@
             const material = new THREE.MeshLambertMaterial({ color: 0x00ffff });
             player = new THREE.Mesh(geometry, material);
             player.position.set(0, 1, 0);
-            player.userData = { distance: 0, speed: 0, isMoving: false };
+            player.castShadow = highQuality;
+            player.userData = { distance: 0, isMoving: false };
             scene.add(player);
         }
         
         function createBots() {
             const botCount = 9;
-            const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff, 0xffa500, 0x800080, 0xffc0cb];
+            const colors = [
+                0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 
+                0xff00ff, 0xffa500, 0x800080, 0xffc0cb, 0xffffff
+            ];
             
             for (let i = 0; i < botCount; i++) {
                 const geometry = new THREE.BoxGeometry(1, 2, 1);
                 const material = new THREE.MeshLambertMaterial({ color: colors[i] });
                 const bot = new THREE.Mesh(geometry, material);
                 
-                const xPos = (Math.random() - 0.5) * 20;
-                const zPos = (Math.random() - 0.5) * 5;
+                const xPos = (Math.random() - 0.5) * 25;
+                const zPos = (Math.random() - 0.5) * 8;
                 
                 bot.position.set(xPos, 1, zPos);
+                bot.castShadow = highQuality;
                 bot.userData = {
                     distance: 0,
-                    speed: 0.1 + Math.random() * 0.15,
+                    speed: 0.12 + Math.random() * 0.18,
                     isMoving: false,
-                    reactionTime: 0.1 + Math.random() * 0.5, // Время реакции
-                    errorChance: 0.02 + Math.random() * 0.05, // Шанс ошибки
+                    reactionTime: 0.15 + Math.random() * 0.6,
+                    errorChance: 0.015 + Math.random() * 0.04,
                     alive: true,
-                    stopTimer: 0
+                    stopTimer: 0,
+                    movementTimer: 0
                 };
                 
                 scene.add(bot);
@@ -597,11 +857,9 @@
         }
         
         function setupControls() {
-            // Клавиатура
             document.addEventListener('keydown', e => keys[e.code] = true);
             document.addEventListener('keyup', e => keys[e.code] = false);
             
-            // Мышь для камеры
             document.addEventListener('mousemove', e => {
                 if (isPointerLocked) {
                     mouseX -= e.movementX * 0.002;
@@ -610,23 +868,18 @@
                 }
             });
             
-            // Pointer lock
-            renderer.domElement.addEventListener('click', () => {
-                if (gameState === 'playing') {
-                    renderer.domElement.requestPointerLock();
-                }
-            });
-            
             document.addEventListener('pointerlockchange', () => {
                 isPointerLocked = document.pointerLockElement === renderer.domElement;
             });
             
-            // Мобильный джойстик
-            if (mobileEnabled) {
-                setupMobileControls();
-            }
+            renderer.domElement.addEventListener('click', () => {
+                if (gameState === 'playing' && !tutorialActive) {
+                    renderer.domElement.requestPointerLock();
+                }
+            });
             
-            // Ресайз
+            if (mobileEnabled) setupMobileControls();
+            
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -647,27 +900,17 @@
                 const rect = container.getBoundingClientRect();
                 startX = rect.left + rect.width / 2;
                 startY = rect.top + rect.height / 2;
-                updateJoystick(touch.clientX, touch.clientY, startX, startY);
             });
             
             document.addEventListener('touchmove', (e) => {
                 if (!joystickActive) return;
                 e.preventDefault();
                 const touch = e.touches[0];
-                updateJoystick(touch.clientX, touch.clientY, startX, startY);
-            });
-            
-            document.addEventListener('touchend', () => {
-                joystickActive = false;
-                joystickVector = { x: 0, y: 0 };
-                handle.style.transform = 'translate(-50%, -50%)';
-            });
-            
-            function updateJoystick(touchX, touchY, centerX, centerY) {
-                const deltaX = touchX - centerX;
-                const deltaY = touchY - centerY;
+                
+                const deltaX = touch.clientX - startX;
+                const deltaY = touch.clientY - startY;
                 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const maxDistance = 45;
+                const maxDistance = 50;
                 
                 const clampedDistance = Math.min(distance, maxDistance);
                 const angle = Math.atan2(deltaY, deltaX);
@@ -679,20 +922,27 @@
                 
                 joystickVector.x = x / maxDistance;
                 joystickVector.y = y / maxDistance;
-            }
+            });
+            
+            document.addEventListener('touchend', () => {
+                joystickActive = false;
+                joystickVector = { x: 0, y: 0 };
+                handle.style.transform = 'translate(-50%, -50%)';
+            });
         }
         
         function startLightCycle() {
-            const greenDuration = 3000 + Math.random() * 3000; // 3-6 секунд
-            const redDuration = 2000 + Math.random() * 2000; // 2-4 секунды
-            
             function switchToGreen() {
                 isGreenLight = true;
+                canMove = true;
+                reactionTimeLeft = 0;
+                
                 document.getElementById('lightStatus').className = 'green';
                 document.getElementById('lightStatus').textContent = 'GREEN LIGHT!';
+                document.getElementById('reactionTime').style.display = 'none';
+                greenLightAudio.currentTime = 0;
                 greenLightAudio.play();
                 
-                // Боты начинают двигаться с небольшой задержкой
                 bots.forEach(bot => {
                     if (bot.userData.alive) {
                         setTimeout(() => {
@@ -701,25 +951,47 @@
                     }
                 });
                 
+                const greenDuration = 3500 + Math.random() * 3000;
                 setTimeout(switchToRed, greenDuration);
             }
             
             function switchToRed() {
                 isGreenLight = false;
+                canMove = true; // Даём время на остановку!
+                reactionTimeLeft = 60; // 1 секунда при 60 FPS
+                
                 document.getElementById('lightStatus').className = 'red';
                 document.getElementById('lightStatus').textContent = 'RED LIGHT!';
+                document.getElementById('reactionTime').style.display = 'block';
+                document.getElementById('reactionTime').textContent = 'ОСТАНАВЛИВАЙСЯ!';
+                
+                redLightAudio.currentTime = 0;
                 redLightAudio.play();
                 
-                // Боты останавливаются с задержкой и могут ошибиться
+                // Обратный отсчёт времени реакции
+                const reactionInterval = setInterval(() => {
+                    reactionTimeLeft--;
+                    if (reactionTimeLeft <= 0) {
+                        canMove = false;
+                        document.getElementById('reactionTime').style.display = 'none';
+                        clearInterval(reactionInterval);
+                    } else {
+                        document.getElementById('reactionTime').textContent = 
+                            `ОСТАНАВЛИВАЙСЯ! ${(reactionTimeLeft / 60).toFixed(1)}с`;
+                    }
+                }, 16);
+                
                 bots.forEach(bot => {
                     if (bot.userData.alive) {
                         setTimeout(() => {
                             bot.userData.isMoving = false;
                             bot.userData.stopTimer = 0;
+                            bot.userData.movementTimer = 0;
                         }, bot.userData.reactionTime * 1000);
                     }
                 });
                 
+                const redDuration = 2500 + Math.random() * 2500;
                 setTimeout(switchToGreen, redDuration);
             }
             
@@ -727,50 +999,52 @@
         }
         
         function updatePlayer() {
-            if (gameState !== 'playing') return;
+            if (gameState !== 'playing' || tutorialActive) return;
             
             let moveX = 0, moveZ = 0;
             let isPlayerMoving = false;
             
-            // Управление с клавиатуры
+            // ИСПРАВЛЕННОЕ УПРАВЛЕНИЕ: W вперёд (отрицательный Z), S назад
             if (keys['KeyW']) { moveZ = -1; isPlayerMoving = true; }
             if (keys['KeyS']) { moveZ = 1; isPlayerMoving = true; }
             if (keys['KeyA']) { moveX = -1; isPlayerMoving = true; }
             if (keys['KeyD']) { moveX = 1; isPlayerMoving = true; }
             
-            // Управление джойстиком
             if (joystickActive) {
                 moveX = joystickVector.x;
                 moveZ = joystickVector.y;
                 isPlayerMoving = Math.abs(moveX) > 0.1 || Math.abs(moveZ) > 0.1;
             }
             
-            // Проверка движения на красный свет
-            if (!isGreenLight && isPlayerMoving) {
-                gameOver();
+            // Проверка движения когда запрещено (после времени реакции)
+            if (!canMove && isPlayerMoving) {
+                gameOver('Ты двигался во время RED LIGHT!');
                 return;
             }
             
             // Движение
-            if (isGreenLight && isPlayerMoving) {
+            if (isPlayerMoving) {
+                const speed = 0.25;
                 const forward = new THREE.Vector3(-Math.sin(mouseX), 0, -Math.cos(mouseX));
                 const right = new THREE.Vector3(Math.cos(mouseX), 0, -Math.sin(mouseX));
                 
-                forward.multiplyScalar(moveZ * playerSpeed);
-                right.multiplyScalar(moveX * playerSpeed);
+                forward.multiplyScalar(moveZ * speed);
+                right.multiplyScalar(moveX * speed);
                 
                 player.position.add(forward).add(right);
                 
+                // Ограничение по сторонам
+                player.position.x = Math.max(-28, Math.min(28, player.position.x));
+                
                 playerDistance = -player.position.z;
                 
-                // Проверка победы
                 if (player.position.z < -100) {
                     win();
                     return;
                 }
             }
             
-            // Обновление камеры
+            // Обновление камеры - МОЖНО КРУТИТЬСЯ!
             camera.position.copy(player.position);
             camera.position.y += 2;
             camera.rotation.order = 'YXZ';
@@ -784,41 +1058,38 @@
             bots.forEach(bot => {
                 if (!bot.userData.alive) return;
                 
-                // Движение ботов
-                if (isGreenLight && bot.userData.isMoving) {
+                if (bot.userData.isMoving && isGreenLight) {
                     bot.position.z -= bot.userData.speed;
                     bot.userData.distance = -bot.position.z;
+                    bot.userData.movementTimer++;
                     
-                    // Бот достиг финиша
                     if (bot.position.z < -100) {
                         bot.userData.alive = false;
                         bot.visible = false;
                     }
                 }
                 
-                // Боты иногда ошибаются на красный свет
-                if (!isGreenLight && bot.userData.isMoving) {
+                // Боты ошибаются
+                if (!canMove && bot.userData.isMoving) {
                     bot.userData.stopTimer++;
                     
-                    if (Math.random() < bot.userData.errorChance || bot.userData.stopTimer > 30) {
-                        // Бот продолжил движение - элиминирован
+                    if (Math.random() < bot.userData.errorChance || bot.userData.stopTimer > 40) {
                         eliminateBot(bot);
                     }
                 }
             });
             
-            document.getElementById('playersAlive').textContent = aliveCount + 1; // +1 игрок
+            document.getElementById('playersAlive').textContent = (aliveCount + 1);
         }
         
         function eliminateBot(bot) {
             bot.userData.alive = false;
             bot.material.color.setHex(0x000000);
-            bot.position.y = 0.1;
             
-            // Анимация падения
-            let fallSpeed = 0.1;
+            let fallSpeed = 0.05;
             const fallInterval = setInterval(() => {
                 bot.scale.y -= fallSpeed;
+                bot.position.y -= fallSpeed * 0.5;
                 if (bot.scale.y <= 0.1) {
                     bot.visible = false;
                     clearInterval(fallInterval);
@@ -826,15 +1097,19 @@
             }, 50);
         }
         
-        function gameOver() {
+        function gameOver(reason) {
             gameState = 'gameover';
             themeMusic.pause();
+            document.getElementById('deathReason').textContent = reason;
             document.getElementById('gameOverScreen').style.display = 'flex';
         }
         
         function win() {
             gameState = 'win';
             themeMusic.pause();
+            const aliveCount = bots.filter(b => b.userData.alive).length;
+            document.getElementById('winStats').textContent = 
+                `Время: ${Math.floor(timer / 60)}с | Выживших: ${aliveCount + 1}/10`;
             document.getElementById('winScreen').style.display = 'flex';
         }
         
@@ -865,10 +1140,9 @@
             animate();
         }
         
-        // Инициализация при загрузке
+        // Автозапуск музыки
         window.addEventListener('load', () => {
             initAudio();
-            menuMusic.play();
         });
     </script>
 </body>
